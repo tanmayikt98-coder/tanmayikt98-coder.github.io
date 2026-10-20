@@ -9,14 +9,13 @@ if (-not $dir) { $dir = $pwd.Path }
 $url = "https://github.com/tanmayikt98-coder/$RepoName.git"
 
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host " Pushing Tanmayi K T Portfolio to GitHub: $RepoName" -ForegroundColor Cyan
-Write-Host " Remote: $url" -ForegroundColor Cyan
+Write-Host " Pushing Tanmayi K T Portfolio to GitHub" -ForegroundColor Cyan
+Write-Host " Target: $url" -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 
-# Check git init
-if (-not (Test-Path "$dir\.git")) {
-    & $git -C $dir init
-}
+# Set local git identity
+& $git -C $dir config user.email "tanmayikt98@gmail.com"
+& $git -C $dir config user.name "Tanmayi K T"
 
 & $git -C $dir remote remove origin 2>$null
 & $git -C $dir remote add origin $url
@@ -35,9 +34,14 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host " Live Repository: https://github.com/tanmayikt98-coder/$RepoName" -ForegroundColor Green
     Write-Host " Live Website:    https://tanmayikt98-coder.github.io/" -ForegroundColor Green
     Write-Host "==================================================" -ForegroundColor Green
-    Write-Host "`n(Wait 30-60 seconds for GitHub to build, then visit your live link!)" -ForegroundColor White
+    Write-Host "`n(Wait 30-60 seconds for GitHub to build, then refresh your site!)" -ForegroundColor White
 } else {
-    Write-Host "`n[NOTICE] If push failed, ensure you created the repo at:" -ForegroundColor Yellow
-    Write-Host "https://github.com/new with name: $RepoName" -ForegroundColor Cyan
+    Write-Host "`n--------------------------------------------------" -ForegroundColor Yellow
+    Write-Host " Notice: Git returned an authentication error." -ForegroundColor Yellow
+    Write-Host " If it says 'Permission denied to tejas448866':" -ForegroundColor White
+    Write-Host " Your Windows PC is currently signed in to GitHub as 'tejas448866'." -ForegroundColor White
+    Write-Host " Option A: Add 'tejas448866' as collaborator on GitHub repo" -ForegroundColor Cyan
+    Write-Host " Option B: Sign in with a Personal Access Token (PAT)" -ForegroundColor Cyan
+    Write-Host "--------------------------------------------------" -ForegroundColor Yellow
 }
 pause
